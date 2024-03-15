@@ -169,6 +169,15 @@ pub async fn play(
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
 
                 for url in urls.iter() {
+                    let handler = call.lock().await;
+                    let cancel_playlist_addition = handler.current_connection().is_none();
+                    drop(handler);
+
+                    if cancel_playlist_addition {
+                        // End command execution when no more songs should be added.
+                        return Ok(());
+                    }
+
                     let Ok(queue) =
                         enqueue_track(&call, &QueryType::VideoLink(url.to_string())).await
                     else {
@@ -196,6 +205,15 @@ pub async fn play(
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
 
                 for (idx, url) in urls.into_iter().enumerate() {
+                    let handler = call.lock().await;
+                    let cancel_playlist_addition = handler.current_connection().is_none();
+                    drop(handler);
+
+                    if cancel_playlist_addition {
+                        // End command execution when no more songs should be added.
+                        return Ok(());
+                    }
+
                     let Ok(queue) = insert_track(&call, &QueryType::VideoLink(url), idx + 1).await
                     else {
                         continue;
@@ -230,6 +248,15 @@ pub async fn play(
                 let mut insert_idx = 1;
 
                 for (i, url) in urls.into_iter().enumerate() {
+                    let handler = call.lock().await;
+                    let cancel_playlist_addition = handler.current_connection().is_none();
+                    drop(handler);
+
+                    if cancel_playlist_addition {
+                        // End command execution when no more songs should be added.
+                        return Ok(());
+                    }
+
                     let Ok(mut queue) =
                         insert_track(&call, &QueryType::VideoLink(url), insert_idx).await
                     else {
@@ -269,6 +296,15 @@ pub async fn play(
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
 
                 for url in urls.into_iter() {
+                    let handler = call.lock().await;
+                    let cancel_playlist_addition = handler.current_connection().is_none();
+                    drop(handler);
+
+                    if cancel_playlist_addition {
+                        // End command execution when no more songs should be added.
+                        return Ok(());
+                    }
+
                     let Ok(queue) = enqueue_track(&call, &QueryType::VideoLink(url)).await else {
                         continue;
                     };

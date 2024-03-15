@@ -56,6 +56,11 @@ impl YouTubeRestartable {
             Mode::Shuffle => args.push("--playlist-random"),
             _ => {}
         }
+        
+        // Hack-fix to only query the first song in an youtube-mix playlist. (Since it will be different songs per person)
+        if uri.contains("list=RD") {
+           args.push("--no-playlist");
+        }
 
         let mut child = Command::new("yt-dlp")
             .args(args)
