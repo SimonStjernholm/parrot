@@ -168,7 +168,7 @@ pub async fn play(
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
 
-                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                if urls.len().cmp(&1).eq(&Ordering::Equal) {
                     query_type = QueryType::VideoLink("".to_string());
                 }
 
@@ -208,7 +208,7 @@ pub async fn play(
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
 
-                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                if urls.len().cmp(&1).eq(&Ordering::Equal) {
                     query_type = QueryType::VideoLink("".to_string());
                 }
 
@@ -253,7 +253,7 @@ pub async fn play(
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
 
-                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                if urls.len().cmp(&1).eq(&Ordering::Equal) {
                     query_type = QueryType::VideoLink("".to_string());
                 }
 
@@ -307,7 +307,7 @@ pub async fn play(
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
                 
-                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                if urls.len().cmp(&1).eq(&Ordering::Equal) {
                     query_type = QueryType::VideoLink("".to_string());
                 }
 
