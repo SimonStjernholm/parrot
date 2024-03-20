@@ -144,7 +144,7 @@ pub async fn play(
         }
     };
 
-    let query_type = verify(
+    let mut query_type = verify(
         query_type,
         ParrotError::Other("Something went wrong while parsing your query!"),
     )?;
@@ -167,6 +167,10 @@ pub async fn play(
                 let urls = YouTubeRestartable::ytdl_playlist(&url, mode)
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
+
+                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                    query_type = QueryType::VideoLink("".to_string());
+                }
 
                 for url in urls.iter() {
                     let handler = call.lock().await;
@@ -203,6 +207,10 @@ pub async fn play(
                 let urls = YouTubeRestartable::ytdl_playlist(&url, mode)
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
+
+                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                    query_type = QueryType::VideoLink("".to_string());
+                }
 
                 for (idx, url) in urls.into_iter().enumerate() {
                     let handler = call.lock().await;
@@ -244,6 +252,10 @@ pub async fn play(
                 let urls = YouTubeRestartable::ytdl_playlist(&url, mode)
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
+
+                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                    query_type = QueryType::VideoLink("".to_string());
+                }
 
                 let mut insert_idx = 1;
 
@@ -294,6 +306,10 @@ pub async fn play(
                 let urls = YouTubeRestartable::ytdl_playlist(&url, mode)
                     .await
                     .ok_or(ParrotError::Other("failed to fetch playlist"))?;
+                
+                if urls.len().cmp(&2).eq(&Ordering::Equal) {
+                    query_type = QueryType::VideoLink("".to_string());
+                }
 
                 for url in urls.into_iter() {
                     let handler = call.lock().await;
