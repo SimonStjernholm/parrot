@@ -144,7 +144,7 @@ pub async fn play(
         }
     };
 
-    let query_type = verify(
+    let mut query_type = verify(
         query_type,
         ParrotError::Other("Something went wrong while parsing your query!"),
     )?;
@@ -175,7 +175,8 @@ pub async fn play(
 
                     if cancel_playlist_addition {
                         // End command execution when no more songs should be added.
-                        return Ok(());
+                        query_type = QueryType::VideoLink("".to_string());
+                        break;
                     }
 
                     let Ok(queue) =
@@ -211,7 +212,8 @@ pub async fn play(
 
                     if cancel_playlist_addition {
                         // End command execution when no more songs should be added.
-                        return Ok(());
+                        query_type = QueryType::VideoLink("".to_string());
+                        break;
                     }
 
                     let Ok(queue) = insert_track(&call, &QueryType::VideoLink(url), idx + 1).await
@@ -254,7 +256,8 @@ pub async fn play(
 
                     if cancel_playlist_addition {
                         // End command execution when no more songs should be added.
-                        return Ok(());
+                        query_type = QueryType::VideoLink("".to_string());
+                        break;
                     }
 
                     let Ok(mut queue) =
@@ -302,7 +305,8 @@ pub async fn play(
 
                     if cancel_playlist_addition {
                         // End command execution when no more songs should be added.
-                        return Ok(());
+                        query_type = QueryType::VideoLink("".to_string());
+                        break;
                     }
 
                     let Ok(queue) = enqueue_track(&call, &QueryType::VideoLink(url)).await else {
