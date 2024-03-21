@@ -58,9 +58,9 @@ impl YouTubeRestartable {
         }
         
         // Hack-fix to only query the first song in an youtube-mix playlist. (Since it will be different songs per person)
-        if uri.contains("list=RD") {
-           args.push("--no-playlist");
-        }
+        //if uri.contains("list=RD") {
+        //   args.push("--no-playlist");
+        //}
 
         let mut child = Command::new("yt-dlp")
             .args(args)
@@ -83,6 +83,10 @@ impl YouTubeRestartable {
                 .unwrap()
                 .to_string()
         });
+
+        if uri.contains("list=RD") {
+            return Some(lines.take(50).collect())
+        }
 
         Some(lines.collect())
     }
